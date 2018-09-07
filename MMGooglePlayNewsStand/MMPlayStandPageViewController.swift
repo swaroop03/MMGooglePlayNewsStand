@@ -85,8 +85,8 @@ At the moment it's only used to perform custom animations on didScroll.
         scrollview = UIScrollView()
         scrollview.showsHorizontalScrollIndicator = false
         scrollview.showsVerticalScrollIndicator = false
-        scrollview.pagingEnabled = true
-        scrollview.scrollEnabled=true
+        scrollview.isPagingEnabled = true
+        scrollview.isScrollEnabled=true
         scrollview.decelerationRate=UIScrollViewDecelerationRateFast
         
         // Controllers as empty array
@@ -102,8 +102,8 @@ At the moment it's only used to perform custom animations on didScroll.
         //NavBut
         navBar=UIView();
         indicatorcolor=UIView();
-        menuBut =  UIButton(type: UIButtonType.System)
-        searchBut = UIButton(type: UIButtonType.System)
+        menuBut =  UIButton(type: UIButtonType.system)
+        searchBut = UIButton(type: UIButtonType.system)
         super.init(coder: aDecoder)
     }
     
@@ -114,14 +114,14 @@ At the moment it's only used to perform custom animations on didScroll.
         
         
         horiScroll=UIScrollView();
-        horiScroll.frame=CGRectMake(0, 145, self.view.frame.width, 64)
+        horiScroll.frame=CGRect(x:0, y:145, width:self.view.frame.width, height:64)
         
         view.insertSubview(horiScroll, aboveSubview: scrollview);
         
         x=0;y=0;buffer=10
        
         
-        for var i=0; i < titles.count; i++ {
+        for i in 0..<titles.count {
             
             var titleLabel:UILabel!
             var bottomView:UIView!
@@ -130,22 +130,22 @@ At the moment it's only used to perform custom animations on didScroll.
             
             //Label
             titleLabel.font=UIFont(name: "Roboto-Medium", size: 14)
-            titleLabel.text=titles[i].uppercaseString as String
-            titleLabel.userInteractionEnabled=true
+            titleLabel.text=titles[i].uppercased as String
+            titleLabel.isUserInteractionEnabled=true
             let lblWidth:CGFloat
-            lblWidth = titleLabel.intrinsicContentSize().width + 32
+            lblWidth = titleLabel.intrinsicContentSize.width + 32
             
-            titleLabel.frame=CGRectMake(x, 16, lblWidth, 34)
-            titleLabel.textAlignment=NSTextAlignment.Center
+            titleLabel.frame=CGRect(x:x, y:16, width:lblWidth, height:34)
+            titleLabel.textAlignment=NSTextAlignment.center
             titleLabel.tag=i+1
-            titleLabel.textColor=UIColor.whiteColor()
+            titleLabel.textColor=UIColor.white
             
             //Bottom
             bottomView=UIView()
-            bottomView.backgroundColor=UIColor.whiteColor()
+            bottomView.backgroundColor=UIColor.white
             
             
-            let tap = UITapGestureRecognizer(target: self, action: Selector("handleTap:"))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
             tap.delegate = self
             titleLabel.addGestureRecognizer(tap)
             
@@ -156,24 +156,27 @@ At the moment it's only used to perform custom animations on didScroll.
             x+=lblWidth+buffer
         }
         horiScroll.showsHorizontalScrollIndicator=false;
-        horiScroll.backgroundColor=UIColor.clearColor();
-        horiScroll.contentSize=CGSizeMake(x,64)
+        horiScroll.backgroundColor=UIColor.clear;
+        horiScroll.contentSize=CGSize(width:x, height:64)
         horiScroll.contentInset = UIEdgeInsetsMake(0, self.view.center.x-25, 0, 0.0);
-        horiScroll.contentOffset=CGPointMake(-(self.view.center.x-50), y)
+        horiScroll.contentOffset=CGPoint(x:-(self.view.center.x-50), y:y)
 //        horiScroll.delegate = self
         horiScroll.translatesAutoresizingMaskIntoConstraints = false
         
         if(titles.count != 0){
-            indicatorcolor.frame=CGRectMake(labels[0].frame.origin.x, 61, labels[0].intrinsicContentSize().width+32, 3)
+            indicatorcolor.frame=CGRect(x:labels[0].frame.origin.x,
+                                        y:61,
+                                        width:labels[0].intrinsicContentSize.width+32,
+                                        height:3)
             indicatorcolor.backgroundColor=colors[0]
             horiScroll.addSubview(indicatorcolor)
         }
         
-        self.view.bringSubviewToFront(horiScroll)
+        self.view.bringSubview(toFront: horiScroll)
 
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?){
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?){
         scrollview = UIScrollView()
         controllers = Array()
         titles = Array()
@@ -186,8 +189,8 @@ At the moment it's only used to perform custom animations on didScroll.
         //NavBut
         indicatorcolor=UIView();
         navBar=UIView();
-        menuBut =  UIButton(type: UIButtonType.System)
-        searchBut = UIButton(type: UIButtonType.System)
+        menuBut =  UIButton(type: UIButtonType.system)
+        searchBut = UIButton(type: UIButtonType.system)
         
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -200,18 +203,18 @@ At the moment it's only used to perform custom animations on didScroll.
         // Initialize UIScrollView
         
         scrollview.delegate = self
-        scrollview.backgroundColor=UIColor.clearColor()
+        scrollview.backgroundColor=UIColor.clear
         scrollview.translatesAutoresizingMaskIntoConstraints = false
         
-        view.insertSubview(scrollview, atIndex: 0) //scrollview is inserted as first view of the hierarchy
+        view.insertSubview(scrollview, at: 0) //scrollview is inserted as first view of the hierarchy
         
         // Set scrollview related constraints
         
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[scrollview]-0-|", options:[], metrics: nil, views: ["scrollview":scrollview]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[scrollview]-0-|", options:[], metrics: nil, views: ["scrollview":scrollview]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[scrollview]-0-|", options:[], metrics: nil, views: ["scrollview":scrollview]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[scrollview]-0-|", options:[], metrics: nil, views: ["scrollview":scrollview]))
         
        
-        bannerImage.frame=CGRectMake(0, 0, self.view.frame.width, 250)
+        bannerImage.frame=CGRect(x:0, y:0, width:self.view.frame.width, height:250)
         view.insertSubview(bannerImage, belowSubview: scrollview);
         view.insertSubview(bannerAlpha, aboveSubview: bannerImage);
         view.insertSubview(bannerThin, aboveSubview: bannerAlpha);
@@ -220,33 +223,33 @@ At the moment it's only used to perform custom animations on didScroll.
 //        bannerImage.contentMode=UIViewContentMode.ScaleAspectFill
         
         
-        bannerImage.backgroundColor=UIColor.clearColor();
+        bannerImage.backgroundColor=UIColor.clear
         bannerAlpha.frame=bannerImage.frame;
         bannerAlpha.alpha=0.3;
         bannerThin.frame=bannerImage.frame;
         bannerThin.alpha=0.3;
-        bannerAlpha.backgroundColor=UIColor.blackColor()
-        bannerThin.backgroundColor=UIColor.blackColor()
+        bannerAlpha.backgroundColor=UIColor.black
+        bannerThin.backgroundColor=UIColor.black
         
         //NavBut
-        navBar.frame=CGRectMake(0, 0, self.view.frame.width, 64);
-        navBar.backgroundColor=UIColor.clearColor()
+        navBar.frame=CGRect(x:0, y:0, width:self.view.frame.width, height:64);
+        navBar.backgroundColor=UIColor.clear
         
         
         
-        menuBut.frame = CGRectMake(16, 27 , 20, 20)
-        menuBut.tintColor=UIColor.whiteColor()
-        menuBut.setImage(UIImage(named: "menu")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Normal)
+        menuBut.frame = CGRect(x:16, y:27 , width:20, height:20)
+        menuBut.tintColor=UIColor.white
+        menuBut.setImage(UIImage(named: "menu")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: UIControlState.normal)
         
-        navTitle.frame = CGRectMake(50, 21 , 100, 30)
+        navTitle.frame = CGRect(x:50, y:21 , width:100, height:30)
         navTitle.text = "Read Now"
-        navTitle.textColor=UIColor.whiteColor()
+        navTitle.textColor=UIColor.white
         navTitle.alpha=0;
         navTitle.font=UIFont(name: "Roboto-Medium", size: 20)
         
-        searchBut.frame = CGRectMake(self.view.frame.width-40, 27 , 20, 20)
-        searchBut.setImage(UIImage(named: "search")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Normal)
-        searchBut.tintColor=UIColor.whiteColor()
+        searchBut.frame = CGRect(x:self.view.frame.width-40, y:27 , width:20, height:20)
+        searchBut.setImage(UIImage(named: "search")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: UIControlState.normal)
+        searchBut.tintColor=UIColor.white
         
         navBar.addSubview(menuBut)
         navBar.addSubview(searchBut)
@@ -257,11 +260,11 @@ At the moment it's only used to perform custom animations on didScroll.
         
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return showStatus
     }
     
@@ -271,12 +274,12 @@ At the moment it's only used to perform custom animations on didScroll.
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
         
         createHorizontalScroller()
         currentColor=colors[0]
-        self.bannerAlpha.mdInflateAnimatedFromPoint(CGPointMake(self.bannerImage.center.x , self.bannerImage.center.y), backgroundColor: self.currentColor, duration: 0.6, completion: nil)
+        self.bannerAlpha.mdInflateAnimated(from: CGPoint(x:self.bannerImage.center.x , y:self.bannerImage.center.y), backgroundColor: self.currentColor, duration: 0.6, completion: nil)
         var images :[UIImage]!
         images=Array()
         images.append(UIImage(named: "ironman.jpg")!)
@@ -284,7 +287,7 @@ At the moment it's only used to perform custom animations on didScroll.
         images.append(UIImage(named: "sportsbg.jpg")!)
         images.append(UIImage(named: "applebg.png")!)
         images.append(UIImage(named: "businessbg.jpg")!)
-        bannerImage.animateWithImages(images, transitionDuration:6, initialDelay: 0, loop: true, isLandscape: true)
+        bannerImage.animate(withImages: images, transitionDuration:6, initialDelay: 0, loop: true, isLandscape: true)
 
     }
     
@@ -298,10 +301,13 @@ At the moment it's only used to perform custom animations on didScroll.
         currentColor=colors[sender.view!.tag-1]
         // Notify delegate about the new page
         
-        if(navBar.backgroundColor != UIColor.clearColor()){
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.indicatorcolor.frame=CGRectMake(self.labels[sender.view!.tag-1].frame.origin.x, 61, self.labels[sender.view!.tag-1].intrinsicContentSize().width+32, 3)
-                self.indicatorcolor.backgroundColor=UIColor.whiteColor()
+        if(navBar.backgroundColor != UIColor.clear){
+            UIView.animate(withDuration:0.2, animations: { () -> Void in
+                self.indicatorcolor.frame=CGRect(x:self.labels[sender.view!.tag-1].frame.origin.x,
+                                                 y:61,
+                                                 width:self.labels[sender.view!.tag-1].intrinsicContentSize.width+32,
+                                                 height:3)
+                self.indicatorcolor.backgroundColor=UIColor.white
                 self.horiScroll.scrollRectToVisible(self.labels[sender.view!.tag-1].frame, animated: true)
                 self.navBar.backgroundColor=self.currentColor
                 self.horiScroll.backgroundColor=self.currentColor
@@ -311,19 +317,22 @@ At the moment it's only used to perform custom animations on didScroll.
         }
         else{
             
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.indicatorcolor.frame=CGRectMake(self.labels[sender.view!.tag-1].frame.origin.x, 61, self.labels[sender.view!.tag-1].intrinsicContentSize().width+32, 3)
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.indicatorcolor.frame=CGRect(x:self.labels[sender.view!.tag-1].frame.origin.x,
+                                                 y:61,
+                                                 width:self.labels[sender.view!.tag-1].intrinsicContentSize.width+32,
+                                                 height:3)
                 self.indicatorcolor.backgroundColor=self.currentColor
 //                self.horiScroll.scrollRectToVisible(self.labels[sender.view!.tag-1].frame, animated: true)
                 
                 //Center Content
-                self.horiScroll.setContentOffset(CGPointMake(-(self.view.center.x-50)+self.labels[sender.view!.tag-1].center.x-self.labels[sender.view!.tag-1].frame.size.width/2, 0), animated: true)
+                self.horiScroll.setContentOffset(CGPoint(x:-(self.view.center.x-50)+self.labels[sender.view!.tag-1].center.x-self.labels[sender.view!.tag-1].frame.size.width/2, y:0), animated: true)
                 
                 
             })
             
         }
-        self.bannerAlpha.mdInflateAnimatedFromPoint(CGPointMake(self.bannerImage.center.x , self.bannerImage.center.y), backgroundColor: self.currentColor, duration: 0.6, completion: nil)
+        self.bannerAlpha.mdInflateAnimated(from: CGPoint(x:self.bannerImage.center.x , y:self.bannerImage.center.y), backgroundColor: self.currentColor, duration: 0.6, completion: nil)
     }
     
     /**
@@ -346,14 +355,14 @@ At the moment it's only used to perform custom animations on didScroll.
         // - Generic cnst
         
         
-        vc.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[view(h)]", options:[], metrics: metricDict, views: ["view":vc.view]))
-        vc.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[view(w)]", options:[], metrics: metricDict, views: ["view":vc.view]))
-        scrollview.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]|", options:[], metrics: nil, views: ["view":vc.view,]))
+        vc.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[view(h)]", options:[], metrics: metricDict, views: ["view":vc.view]))
+        vc.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[view(w)]", options:[], metrics: metricDict, views: ["view":vc.view]))
+        scrollview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]|", options:[], metrics: nil, views: ["view":vc.view]))
         
         // cnst for position: 1st element
         
         if controllers.count == 1{
-            scrollview.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]", options:[], metrics: nil, views: ["view":vc.view,]))
+            scrollview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]", options:[], metrics: nil, views: ["view":vc.view,]))
             
             // cnst for position: other elements
             
@@ -362,12 +371,12 @@ At the moment it's only used to perform custom animations on didScroll.
             let previousVC = controllers[controllers.count-2]
             let previousView = previousVC.view;
             
-            scrollview.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[previousView]-0-[view]", options:[], metrics: nil, views: ["previousView":previousView,"view":vc.view]))
+            scrollview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat:"H:[previousView]-0-[view]", options:[], metrics: nil, views: ["previousView":previousView as Any,"view":vc.view]))
             
             if let cst = lastViewConstraint{
                 scrollview.removeConstraints(cst as! [NSLayoutConstraint])
             }
-            lastViewConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:[view]-0-|", options:[], metrics: nil, views: ["view":vc.view])
+            lastViewConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:[view]-0-|", options:[], metrics: nil, views: ["view":vc.view]) as NSArray
             scrollview.addConstraints(lastViewConstraint! as! [NSLayoutConstraint])
             
         }
@@ -391,14 +400,14 @@ At the moment it's only used to perform custom animations on didScroll.
         // - Generic cnst
         
         
-        vc.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[view(h)]", options:[], metrics: metricDict, views: ["view":vc.view]))
-        vc.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[view(w)]", options:[], metrics: metricDict, views: ["view":vc.view]))
-        scrollview.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]|", options:[], metrics: nil, views: ["view":vc.view,]))
+        vc.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat:"V:[view(h)]", options:[], metrics: metricDict, views: ["view":vc.view]))
+        vc.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat:"H:[view(w)]", options:[], metrics: metricDict, views: ["view":vc.view]))
+        scrollview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]|", options:[], metrics: nil, views: ["view":vc.view,]))
         
         // cnst for position: 1st element
         
         if controllers.count == 1{
-            scrollview.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]", options:[], metrics: nil, views: ["view":vc.view,]))
+            scrollview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]", options:[], metrics: nil, views: ["view":vc.view,]))
             
             // cnst for position: other elements
             
@@ -407,12 +416,12 @@ At the moment it's only used to perform custom animations on didScroll.
             let previousVC = controllers[controllers.count-2]
             let previousView = previousVC.view;
             
-            scrollview.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[previousView]-0-[view]", options:[], metrics: nil, views: ["previousView":previousView,"view":vc.view]))
+            scrollview.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:[previousView]-0-[view]", options:[], metrics: nil, views: ["previousView":previousView,"view":vc.view]))
             
             if let cst = lastViewConstraint{
                 scrollview.removeConstraints(cst as! [NSLayoutConstraint])
             }
-            lastViewConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:[view]-0-|", options:[], metrics: nil, views: ["view":vc.view])
+            lastViewConstraint = NSLayoutConstraint.constraints(withVisualFormat: "H:[view]-0-|", options:[], metrics: nil, views: ["view":vc.view]) as NSArray
             scrollview.addConstraints(lastViewConstraint! as! [NSLayoutConstraint])
             
         }
@@ -432,10 +441,10 @@ At the moment it's only used to perform custom animations on didScroll.
         currentColor=colors[currentPage]
         // Notify delegate about the new page
         
-        if(navBar.backgroundColor != UIColor.clearColor()){
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.indicatorcolor.frame=CGRectMake(self.labels[self.currentPage].frame.origin.x, 61, self.labels[self.currentPage].intrinsicContentSize().width+32, 3)
-                self.indicatorcolor.backgroundColor=UIColor.whiteColor()
+        if(navBar.backgroundColor != UIColor.clear){
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.indicatorcolor.frame=CGRect(x:self.labels[self.currentPage].frame.origin.x, y:61, width:self.labels[self.currentPage].intrinsicContentSize.width+32, height:3)
+                self.indicatorcolor.backgroundColor=UIColor.white
                 self.horiScroll.scrollRectToVisible(self.labels[self.currentPage].frame, animated: true)
                 
                 self.navBar.backgroundColor=self.currentColor
@@ -447,18 +456,18 @@ At the moment it's only used to perform custom animations on didScroll.
         }
         else{
             
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.indicatorcolor.frame=CGRectMake(self.labels[self.currentPage].frame.origin.x, 61, self.labels[self.currentPage].intrinsicContentSize().width+32, 3)
+            UIView.animate(withDuration: 0.2, animations: { () -> Void in
+                self.indicatorcolor.frame=CGRect(x: self.labels[self.currentPage].frame.origin.x, y:61, width:self.labels[self.currentPage].intrinsicContentSize.width+32, height:3)
                 self.indicatorcolor.backgroundColor=self.currentColor
                 
                 //Center Content
-                self.horiScroll.setContentOffset(CGPointMake(-(self.view.center.x-50)+self.labels[self.currentPage].center.x-self.labels[self.currentPage].frame.size.width/2, 0), animated: true)
+                self.horiScroll.setContentOffset(CGPoint(x:-(self.view.center.x-50)+self.labels[self.currentPage].center.x-self.labels[self.currentPage].frame.size.width/2, y:0), animated: true)
                 
                 
             })
             
         }
-        self.bannerAlpha.mdInflateAnimatedFromPoint(CGPointMake(self.bannerImage.center.x , self.bannerImage.center.y), backgroundColor: self.currentColor, duration: 0.6, completion: nil)
+        self.bannerAlpha.mdInflateAnimated(from: CGPoint(x:self.bannerImage.center.x , y:self.bannerImage.center.y), backgroundColor: self.currentColor, duration: 0.6, completion: nil)
         
         
         
@@ -468,10 +477,10 @@ At the moment it's only used to perform custom animations on didScroll.
     
     // MARK: - Scrollview Delegate -
     
-    func scrollViewDidScroll(sv: UIScrollView) {
+    func scrollViewDidScroll(_ sv: UIScrollView) {
         
         
-        for var i=0; i < controllers.count; i++ {
+        for i in 0..<controllers.count {
             
             if let vc = controllers[i] as? MMPlayPageScroll{
                 
@@ -489,43 +498,42 @@ At the moment it's only used to perform custom animations on didScroll.
                 //                NSLog("%f %f", scrollview.contentOffset.x,mx)
                 if(mx < 2 && mx > -2.0){
                     
-                    vc.walkthroughDidScroll(scrollview.contentOffset.x, offset: mx)
+                    vc.walkthroughDidScroll(position: scrollview.contentOffset.x, offset: mx)
                     
                 }
             }
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updateUI()
     }
     
     
     
     /* WIP */
-    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         print("CHANGE")
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         print("SIZE")
     }
     
     
     //MARK Y-axis
     func scrollYAxis(offset:CGFloat ,translation:CGPoint) {
-        
         if(offset > 0){
             var horiScrollTransform : CATransform3D! = CATransform3DIdentity
             var navBarTransform : CATransform3D! = CATransform3DIdentity
             var imageTransform : CATransform3D! = CATransform3DIdentity
             //        NSLog("Hello Y-Axis %f",offset)
-            for var i=0; i < controllers.count; i++ {
-                if(controllers[i].isKindOfClass(MMSampleTableViewController)){
+            for i in 0..<controllers.count {
+                if(controllers[i] is (MMSampleTableViewController)){
                     let temp=controllers[i] as! MMSampleTableViewController
-                    temp.tableView.contentOffset=CGPointMake(0, offset)
+                    temp.tableView.contentOffset=CGPoint(x:0, y:offset)
                     
-                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
                         if(offset > 10){
                             temp.headerImage.alpha=0
                         }
@@ -544,12 +552,12 @@ At the moment it's only used to perform custom animations on didScroll.
                             
                             showStatus =  false
                             setNeedsStatusBarAppearanceUpdate()
-                            self.horiScroll.setContentOffset(CGPointMake(-(self.view.center.x-50)+self.labels[self.currentPage].center.x-self.labels[self.currentPage].frame.size.width/2, 0), animated: true)
-                            UIView.animateWithDuration(0.3, delay: 0, options: [], animations: { () -> Void in
+                            self.horiScroll.setContentOffset(CGPoint(x:-(self.view.center.x-50)+self.labels[self.currentPage].center.x-self.labels[self.currentPage].frame.size.width/2, y:0), animated: true)
+                            UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: { () -> Void in
                                 self.horiScroll.contentInset = UIEdgeInsetsMake(0, self.view.center.x-25, 0, 0.0);
 //                                self.horiScroll.setContentOffset(CGPointMake(-(self.view.center.x-50), 0), animated: true)
-                                self.horiScroll.backgroundColor=UIColor.clearColor()
-                                self.navBar.backgroundColor=UIColor.clearColor()
+                                self.horiScroll.backgroundColor=UIColor.clear
+                                self.navBar.backgroundColor=UIColor.clear
                                 self.indicatorcolor.backgroundColor=self.currentColor;
                                 
                                  self.navTitle.alpha=0;
@@ -563,11 +571,11 @@ At the moment it's only used to perform custom animations on didScroll.
                     }
                     else{
                             if(offset > 220   ){
-                                  UIView.animateWithDuration(0.3, delay: 0, options: [], animations: { () -> Void in
+                                UIView.animate(withDuration: 0.3, delay: 0, options: [], animations: { () -> Void in
                                     self.horiScroll.backgroundColor=self.currentColor
                                     self.navBar.backgroundColor=self.currentColor
                                     self.navTitle.alpha=1;
-                                    self.indicatorcolor.backgroundColor=UIColor.whiteColor()
+                                    self.indicatorcolor.backgroundColor=UIColor.white
                                     self.horiScroll.contentInset = UIEdgeInsetsMake(0, 0, 0, 0.0);
                                     //                            horiScroll.contentOffset=CGPointMake(0, 0)
                                     self.horiScroll.scrollRectToVisible(self.labels[self.currentPage].frame, animated: true)
@@ -591,9 +599,9 @@ At the moment it's only used to perform custom animations on didScroll.
                         let y = -((offset - bannerImage.frame.origin.y) / 75) * 25
                         imageTransform=CATransform3DTranslate(imageTransform, 0, -offset, 0)
                         
-                        bannerImage.frame = CGRectMake(x, y, w, h)
-                         bannerAlpha.frame = CGRectMake(x, y, w, h)
-                         bannerThin.frame = CGRectMake(x, y, w, h)
+                        bannerImage.frame = CGRect(x:x, y:y, width:w, height:h)
+                        bannerAlpha.frame = CGRect(x:x, y:y, width:w, height:h)
+                        bannerThin.frame = CGRect(x:x, y:y, width:w, height:h)
 //                        bannerImage.layer.transform=imageTransform
 //                        bannerAlpha.layer.transform=imageTransform
 //                        bannerThin.layer.transform=imageTransform
@@ -622,7 +630,7 @@ At the moment it's only used to perform custom animations on didScroll.
     func getframeindexpathOfController()-> CGRect{
          let temp = controllers[currentPage] as! MMSampleTableViewController
         
-        return temp.tableView.framesForRowAtIndexPath(temp.tableView.indexPathForSelectedRow!)
+        return temp.tableView.framesForRowAtIndexPath(indexpath: temp.tableView.indexPathForSelectedRow! as NSIndexPath)
     }
     
 }

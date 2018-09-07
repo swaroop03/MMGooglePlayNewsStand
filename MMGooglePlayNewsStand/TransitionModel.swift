@@ -12,37 +12,37 @@ class TransitionModel: NSObject , UIViewControllerAnimatedTransitioning , UIView
     
     var isPresenting = false as Bool
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.8;
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         if(isPresenting){
-            let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! MMPlayStandPageViewController
+            let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! MMPlayStandPageViewController
             
-            let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! DetailViewController
+            let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! DetailViewController
 
             toVC.view.alpha=0
-            transitionContext.containerView()!.addSubview(toVC.view)
+            transitionContext.containerView.addSubview(toVC.view)
             
             let snapshot = UIView()
-            snapshot.backgroundColor=UIColor.whiteColor()
+            snapshot.backgroundColor=UIColor.white
 //            snapshot.frame = fromVC.tableView.framesForRowAtIndexPath(fromVC.tableView.indexPathForSelectedRow()!)
             snapshot.frame = fromVC.getframeindexpathOfController()
-            snapshot.frame=CGRectMake(16, snapshot.frame.origin.y, snapshot.frame.width-32, snapshot.frame.height)
+            snapshot.frame=CGRect(x:16, y:snapshot.frame.origin.y, width:snapshot.frame.width-32, height:snapshot.frame.height)
 //            NSLog("%@", snapshot)
             toVC.dismissFrame = snapshot.frame
-            transitionContext.containerView()!.addSubview(snapshot)
+            transitionContext.containerView.addSubview(snapshot)
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 
                 
                 snapshot.frame = fromVC.view.frame
                 
                 
             }, completion: { (Bool) -> Void in
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                UIView.animate(withDuration: 0.2, animations: { () -> Void in
                     toVC.view.alpha=1
                     
                 }, completion: { (Bool) -> Void in
@@ -55,29 +55,29 @@ class TransitionModel: NSObject , UIViewControllerAnimatedTransitioning , UIView
             
         }
         else{
-            let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! DetailViewController
+            let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! DetailViewController
             
-            var toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! MMPlayStandPageViewController
+            _ = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! MMPlayStandPageViewController
             
             let snapshot = UIView()
-            snapshot.backgroundColor=UIColor.whiteColor()
+            snapshot.backgroundColor=UIColor.white
             snapshot.frame = fromVC.view.frame
-            transitionContext.containerView()!.addSubview(snapshot)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            transitionContext.containerView.addSubview(snapshot)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
                 
                 
                 fromVC.view.alpha=0
                 snapshot.frame = fromVC.dismissFrame
-                fromVC.navBar.frame=CGRectMake(0, -64, fromVC.view.frame.width, 64)
+                fromVC.navBar.frame=CGRect(x:0, y:-64, width:fromVC.view.frame.width, height:64)
                 
                 
                 }, completion: { (Bool) -> Void in
-                    UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    UIView.animate(withDuration: 0.2, animations: { () -> Void in
                         snapshot.alpha=0;
                        
                     })
                     snapshot.removeFromSuperview()
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             })
 
         }

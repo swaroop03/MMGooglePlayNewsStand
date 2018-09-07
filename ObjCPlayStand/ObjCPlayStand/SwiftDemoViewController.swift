@@ -15,27 +15,27 @@ class SwiftDemoViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        let vc_one = self.storyboard?.instantiateViewControllerWithIdentifier("demo") as? MMTableViewController
+        let vc_one = self.storyboard?.instantiateViewController(withIdentifier: "demo") as? MMTableViewController
         vc_one!.title = "Highlights";
         vc_one!.logoColor = "4caf50";
         vc_one!.logoImage = "highlights";
         
-        let vc_two = self.storyboard?.instantiateViewControllerWithIdentifier("demo") as? MMTableViewController
+        let vc_two = self.storyboard?.instantiateViewController(withIdentifier: "demo") as? MMTableViewController
         vc_two!.title = "Sports";
         vc_two!.logoColor = "009688";
         vc_two!.logoImage = "sports";
 
-        let vc_three = self.storyboard?.instantiateViewControllerWithIdentifier("demo") as? MMTableViewController
+        let vc_three = self.storyboard?.instantiateViewController(withIdentifier: "demo") as? MMTableViewController
         vc_three!.title = "Entertainment";
         vc_three!.logoColor = "673ab7";
         vc_three!.logoImage = "movie";
         
-        let vc_four = self.storyboard?.instantiateViewControllerWithIdentifier("demo") as? MMTableViewController
+        let vc_four = self.storyboard?.instantiateViewController(withIdentifier: "demo") as? MMTableViewController
         vc_four!.title = "News";
         vc_four!.logoColor = "ff9800";
         vc_four!.logoImage = "world";
 
-        let vc_five = self.storyboard?.instantiateViewControllerWithIdentifier("collection") as? MMCollectionViewController
+        let vc_five = self.storyboard?.instantiateViewController(withIdentifier: "collection") as? MMCollectionViewController
         vc_five!.title = "Technology";
         vc_five!.logoColor = "9c27b0";
         vc_five!.logoImage = "tech";
@@ -47,11 +47,11 @@ class SwiftDemoViewController: UIViewController {
         vc_four!.scrolldeleagte = containerVC
         vc_five!.scrolldeleagte = containerVC
         
-        containerVC.itemViewColorArray = ["4caf50","009688","673ab7","ff9800","9c27b0"];
-        containerVC.menuItemFont = UIFont(name: "Roboto-Medium", size: 15)
-        containerVC.menuIndicatorColor = UIColor.whiteColor()
+        containerVC?.itemViewColorArray = ["4caf50","009688","673ab7","ff9800","9c27b0"];
+        containerVC?.menuItemFont = UIFont(name: "Roboto-Medium", size: 15)
+        containerVC?.menuIndicatorColor = UIColor.white
 
-        view.addSubview(containerVC.view);
+        view.addSubview((containerVC?.view)!);
 
 
         

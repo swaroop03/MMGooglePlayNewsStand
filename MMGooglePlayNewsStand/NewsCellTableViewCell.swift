@@ -19,11 +19,11 @@ class NewsCellTableViewCell: UITableViewCell {
         // Initialization code
         titleNews.font=UIFont(name: "Roboto-Medium", size: 18)
         descNews.font=UIFont(name: "Roboto-Medium", size: 14)
-        descNews.textColor=UIColor.lightGrayColor()
+        descNews.textColor=UIColor.lightGray
         headerImage.clipsToBounds=true
-        headerImage.contentMode=UIViewContentMode.ScaleAspectFill
+        headerImage.contentMode=UIViewContentMode.scaleAspectFill
         
-        middleView.layer.shadowColor=UIColor.blackColor().CGColor
+        middleView.layer.shadowColor=UIColor.black.cgColor
         middleView.layer.shadowRadius = 8.0
         middleView.layer.shadowOpacity  = 1.0
         middleView.layer.masksToBounds=true
@@ -31,7 +31,7 @@ class NewsCellTableViewCell: UITableViewCell {
         
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

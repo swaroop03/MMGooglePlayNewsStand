@@ -26,7 +26,7 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
     var preventAnimation = Set<NSIndexPath>()
     
     //     weak var scrolldelegate:scrolldelegateForYAxis?
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var tag = 0 as Int
     override func viewDidLoad() {
         
@@ -35,16 +35,16 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
         self.tableView.delegate=self;
         self.tableView.dataSource=self;
         self.tableView.decelerationRate=UIScrollViewDecelerationRateFast
-        header.frame=CGRectMake(0, 0, self.view.frame.width, 200);
-        headerImage.frame=CGRectMake(header.center.x-30, header.center.y-30, 60, 60)
+        header.frame=CGRect(x:0, y:0, width:self.view.frame.width, height:200);
+        headerImage.frame=CGRect(x:header.center.x-30, y:header.center.y-30, width:60, height:60)
         headerImage.layer.cornerRadius=headerImage.frame.width/2
         
         
        
-        headerImage.tintColor=UIColor.whiteColor()
+        headerImage.tintColor=UIColor.white
         
         
-        header.backgroundColor=UIColor.clearColor()
+        header.backgroundColor=UIColor.clear
         
         //        header.addSubview(headerImage)
         initHeadr()
@@ -66,9 +66,9 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
         header=UIView()
         headerImage=UIImageView()
         headerImage.backgroundColor=UIColor(hexString: "109B96")
-        headerImage.contentMode=UIViewContentMode.Center
+        headerImage.contentMode=UIViewContentMode.center
         headerImage.clipsToBounds=true
-        trans=CGPointMake(0, 0)
+        trans=CGPoint(x:0, y:0)
         imageArr = Array()
         super.init(coder: aDecoder)
     }
@@ -77,8 +77,8 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
         // Dispose of any resources that can be recreated.
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     func initHeadr(){
@@ -87,32 +87,32 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
         switch ( tag){
         case 1:
              headerImage.backgroundColor=UIColor(hexString: "9c27b0")
-            headerImage.image=UIImage(named: "highlights")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+            headerImage.image=UIImage(named: "highlights")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
             break
             
         case 2:
              headerImage.backgroundColor=UIColor(hexString: "009688")
-              headerImage.image=UIImage(named: "sports")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+              headerImage.image=UIImage(named: "sports")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
             break
             
         case 3:
              headerImage.backgroundColor=UIColor(hexString: "673ab7")
-              headerImage.image=UIImage(named: "movie")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+              headerImage.image=UIImage(named: "movie")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
             break
             
         case 4:
              headerImage.backgroundColor=UIColor(hexString: "ff9800")
-              headerImage.image=UIImage(named: "tech")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+              headerImage.image=UIImage(named: "tech")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
             break
             
         case 5:
              headerImage.backgroundColor=UIColor(hexString: "03a9f4")
-              headerImage.image=UIImage(named: "business")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+              headerImage.image=UIImage(named: "business")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
             break
             
         default:
              headerImage.backgroundColor=UIColor(hexString: "4caf50")
-              headerImage.image=UIImage(named: "world")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+             headerImage.image=UIImage(named: "world")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
             break
         }
     }
@@ -133,20 +133,20 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
         return 1;
     }
     
-     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if !preventAnimation.contains(indexPath) {
-            preventAnimation.insert(indexPath)
-            TipInCellAnimator.animate(cell)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if !preventAnimation.contains(indexPath as NSIndexPath) {
+            preventAnimation.insert(indexPath as NSIndexPath)
+            TipInCellAnimator.animate(cell: cell)
         }
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:NewsCellTableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as! NewsCellTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:NewsCellTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! NewsCellTableViewCell
         
         cell.headerImage.image=imageArr[indexPath.row]
         
@@ -154,11 +154,11 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let detail = self.storyboard?.instantiateViewControllerWithIdentifier("detail") as! DetailViewController
-        detail.modalPresentationStyle = UIModalPresentationStyle.Custom;
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detail = self.storyboard?.instantiateViewController(withIdentifier: "detail") as! DetailViewController
+        detail.modalPresentationStyle = UIModalPresentationStyle.custom;
         detail.transitioningDelegate = transitionManager;
-        appDelegate.walkthrough?.presentViewController(detail, animated: true, completion: nil)
+        appDelegate.walkthrough?.present(detail, animated: true, completion: nil)
 //        self.presentViewController(detail, animated: true, completion: nil)
 
     }
@@ -170,10 +170,10 @@ class MMSampleTableViewController: UIViewController,UITableViewDataSource,UITabl
         
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    private func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        trans = CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y);
-        appDelegate.walkthrough!.scrollYAxis(scrollView.contentOffset.y, translation: trans)
+        trans = CGPoint(x:scrollView.contentOffset.x, y:scrollView.contentOffset.y);
+        appDelegate.walkthrough!.scrollYAxis(offset: scrollView.contentOffset.y, translation: trans)
     }
     
     

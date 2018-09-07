@@ -13,8 +13,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var textViewDemo: UITextView!
     @IBOutlet weak var textHeightConstraint: NSLayoutConstraint!
     var navBar = UIView()
-    var dismissFrame = CGRectMake(0, 0, 0, 0)
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var dismissFrame = CGRect.zero
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,18 +22,18 @@ class DetailViewController: UIViewController {
         textHeightConstraint.constant = 450
         
         
-        let navBut = UIButton(type: UIButtonType.System)
+        let navBut = UIButton(type: UIButtonType.system)
         let navTitle = UILabel()
-        navBar.frame=CGRectMake(0, 0, self.view.bounds.width, 64)
-        navBut.frame=CGRectMake(0, 16, 45, 45)
-        navTitle.frame=CGRectMake(55 , 20, self.view.bounds.width-50, 30)
+        navBar.frame=CGRect(x:0, y:0, width:self.view.bounds.width, height:64)
+        navBut.frame=CGRect(x:0, y:16, width:45, height:45)
+        navTitle.frame=CGRect(x:55 , y:20, width:self.view.bounds.width-50, height:30)
         
         navBar.backgroundColor = UIColor(hexString: "673ab7")
-        navBut.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        navBut.tintColor=UIColor.whiteColor()
-        navBut.setImage(UIImage(named: "back")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), forState: UIControlState.Normal)
-        navBut.addTarget(self, action: "dismiss", forControlEvents: UIControlEvents.TouchUpInside)
-        navTitle.textColor=UIColor.whiteColor()
+        navBut.setTitleColor(UIColor.white, for: UIControlState.normal)
+        navBut.tintColor=UIColor.white
+        navBut.setImage(UIImage(named: "back")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate), for: UIControlState.normal)
+        navBut.addTarget(self, action: #selector(DetailViewController.dismiss as (DetailViewController) -> () -> ()), for: UIControlEvents.touchUpInside)
+        navTitle.textColor=UIColor.white
         navTitle.font=UIFont(name: "Roboto-Medium", size: 20)
         navTitle.text="Detail Page"
         
@@ -42,8 +42,8 @@ class DetailViewController: UIViewController {
         view.addSubview(navBar)
         
     }
-    func dismiss(){
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @objc func dismiss(){
+        self.dismiss(animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {

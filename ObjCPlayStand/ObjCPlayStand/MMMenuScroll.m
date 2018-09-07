@@ -30,6 +30,7 @@ static const CGFloat kMMIndicatorHeight = 3;
         self.backgroundColor = _viewbackgroudColor;
         _scrollView = [[UIScrollView alloc]initWithFrame:self.bounds];
         _scrollView.showsHorizontalScrollIndicator = NO;
+        [_scrollView setPagingEnabled:YES];
         [self addSubview:_scrollView];
     }
     return self;
@@ -247,9 +248,11 @@ static const CGFloat kMMIndicatorHeight = 3;
 - (void)itemViewTapAction:(UITapGestureRecognizer *)Recongnizer
 {
     if (self.delegate && [self.delegate respondsToSelector:@selector(scrollMenuViewSelectedIndex:)]) {
-        [self updateIndicator:[(UIGestureRecognizer*) Recongnizer view].tag];
-        [self.delegate scrollMenuViewSelectedIndex:[(UIGestureRecognizer*) Recongnizer view].tag];
-        
+        UIView* selectedView = [Recongnizer view];
+        [self updateIndicator:selectedView.tag];
+        [self.delegate scrollMenuViewSelectedIndex:selectedView.tag];
+        CGRect rect = [selectedView convertRect:selectedView.frame toView:self.scrollView];
+        [self.scrollView scrollRectToVisible:rect animated:YES];
     }
 }
 
